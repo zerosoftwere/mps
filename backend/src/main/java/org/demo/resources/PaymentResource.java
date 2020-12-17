@@ -2,6 +2,7 @@ package org.demo.resources;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -38,6 +39,7 @@ public class PaymentResource {
     }
 
     @POST
+    @Transactional
     @Path("proceed")
     @RolesAllowed({"customer"})
     @SecurityRequirement(name = "jwt", scopes = {})

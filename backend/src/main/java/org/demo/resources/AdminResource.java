@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,6 +14,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.demo.dtos.ComplaintCloseRequest;
 import org.demo.dtos.UserCreateRequest;
@@ -56,68 +59,77 @@ public class AdminResource {
     }
 
     @POST
+    @Transactional
     @Path("users")
     @RolesAllowed({"admin"})
     @SecurityRequirement(name = "jwt", scopes = {})
-    public String create(UserCreateRequest request) {
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response create(UserCreateRequest request) {
         User user = userService.create(request.getEmail(), request.getPassword(), request.getRole());
-        return user.email;
+        return Response.status(Status.CREATED).entity(user.email).build();
     }
 
     @GET
+    @Transactional
     @Path("transactions")
     @RolesAllowed({"admin", "support"})
     @SecurityRequirement(name = "jwt", scopes = {})
-    public List<User> transactions() {
-        return Transaction.findAll().list();
+    public Response transactions() {
+        return Response.ok(Transaction.findAll().list()).build();
     }
 
-    @POST
+    @GET
     @Path("vendors")
     @RolesAllowed({"admin"})
     @SecurityRequirement(name = "jwt", scopes = {})
-    public List<Vendor> list() {
-        return Vendor.findAll().list();
+    public Response list() {
+        return Response.ok(Vendor.findAll().list()).build();
     }
 
     @POST
+    @Transactional
     @Path("vendors")
     @RolesAllowed({"admin"})
     @SecurityRequirement(name = "jwt", scopes = {})
-    public Vendor create(VendorCreateRequest request) {
-        return vendorService.create(request.getName());
+    public Response create(VendorCreateRequest request) {
+        return Response.status(Status.CREATED).entity(vendorService.create(request.getName())).build();
     }
 
     @PUT
+    @Transactional
     @Path("vendors/{id}")
     @RolesAllowed({"admin"})
     @SecurityRequirement(name = "jwt", scopes = {})
-    public Vendor update(@PathParam("id") Long id, VendorCreateRequest request) {
-        return vendorService.update(id, request.getName());
+    public Response update(@PathParam("id") Long id, VendorCreateRequest request) {
+        return Response.ok(vendorService.update(id, request.getName())).build();
     }
 
     @DELETE
+    @Transactional
     @Path("vendors/{id}")
     @RolesAllowed({"admin"})
     @SecurityRequirement(name = "jwt", scopes = {})
-    public void delete(@PathParam("id") Long id) {
+    public Response delete(@PathParam("id") Long id) {
         vendorService.delete(id);
+        return Response.noContent().build();
     }
 
     @GET
     @Path("complaints")
     @RolesAllowed({"admin", "support"})
     @SecurityRequirement(name = "jwt", scopes = {})
-    public List<Complaint> complaints() {
-        return Complaint.findAll().list();
+    public Response complaints() {
+        return Response.ok(Complaint.findAll().list()).build();
     }
 
     @POST
+    @Transactional
     @Path("complaints")
     @RolesAllowed({"admin", "support"})
     @SecurityRequirement(name = "jwt", scopes = {})
-    public void closeComplaint(@PathParam("id") Long id, ComplaintCloseRequest request) {
+    public Response closeComplaint(@PathParam("id") Long id, ComplaintCloseRequest request) {
         User user = AuthService.user();
         complaintService.close(id, request.getResolution(), user);
+        return Response.noContent().build();
     }
 }

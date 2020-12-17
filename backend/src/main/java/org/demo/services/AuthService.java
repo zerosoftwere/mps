@@ -37,6 +37,8 @@ public class AuthService {
     }
 
     public String register(String name, String email, String phone, String password) {
+        if (User.exists(email)) throw new BadRequestException("duplicate email");
+
         User user = userService.create(email, password, "customer");
         customerService.create(user, name, phone);
         return sign(user);

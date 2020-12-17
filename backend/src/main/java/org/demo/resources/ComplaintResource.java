@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -36,7 +37,7 @@ public class ComplaintResource {
     @Inject
     
     @GET
-    @RolesAllowed("{customer}")
+    @RolesAllowed({"customer"})
     @SecurityRequirement(name = "jwt", scopes = {})
     public List<Complaint> list() {
         User user = authService.user();
@@ -44,7 +45,8 @@ public class ComplaintResource {
     }
 
     @POST
-    @RolesAllowed("{customer}")
+    @Transactional
+    @RolesAllowed({"customer"})
     @SecurityRequirement(name = "jwt", scopes = {})
     public ComplaintResponse raise(ComplaintRequest request) {
         User user = authService.user();

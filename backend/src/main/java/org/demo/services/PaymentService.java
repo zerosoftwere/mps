@@ -35,7 +35,7 @@ public class PaymentService {
         
         Transaction transaction = new Transaction();
         transaction.amount = summary.getAmount();
-        transaction.userId = user.id;
+        transaction.user = user;
         transaction.service = service.name;
         transaction.status = Transaction.Status.SUCCESSFULL;
         transaction.customer = customer.name;

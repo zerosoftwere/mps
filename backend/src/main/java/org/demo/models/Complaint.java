@@ -5,15 +5,22 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
-public class Complaint extends PanacheEntity {
+public class Complaint extends PanacheEntityBase {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long id;
+
     @ManyToOne(optional = false)
     public Customer customer;
 
@@ -28,10 +35,10 @@ public class Complaint extends PanacheEntity {
     @UpdateTimestamp
     public Date dateResolved;
     
-    @ManyToOne(optional = false)
+    @ManyToOne()
     public User resolvedBy;
 
-    @Column(nullable = false)
+    @Column()
     public String resolution;
 
     public static List<Complaint> findByUser(User user) {

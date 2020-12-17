@@ -1,7 +1,6 @@
 package org.demo.resources;
 
-import java.util.List;
-
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -9,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.demo.models.Vendor;
 import org.demo.services.VendorService;
@@ -23,13 +23,15 @@ public class VendorResource {
     VendorService vendorService;
     
     @GET
-    public List<Vendor> list() {
-        return Vendor.findAll().list();
+    @PermitAll
+    public Response list() {
+        return Response.ok(Vendor.findAll().list()).build();
     }
 
     @GET
+    @PermitAll
     @Path("{id}")
-    public Vendor retrieve(@PathParam("id") Long id) {
-        return vendorService.get(id);
+    public Response retrieve(@PathParam("id") Long id) {
+        return Response.ok(vendorService.get(id).getServices()).build();
     }
 }

@@ -2,6 +2,7 @@ package org.demo.resources;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,7 +14,7 @@ import org.demo.dtos.RegisterRequest;
 import org.demo.services.AuthService;
 
 @Path("auth")
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(MediaType.TEXT_PLAIN)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthResource {
 
@@ -29,6 +30,7 @@ public class AuthResource {
 
     @POST
     @PermitAll
+    @Transactional
     @Path("register")
     public String register(RegisterRequest request) {
         return authService.register(request.getName(), request.getEmail(), request.getPhone(), request.getPassword());
