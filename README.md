@@ -29,4 +29,4 @@ docker-compose down
 ## Documentation
 
 - find the doc at `http://localhost:8000/doc`
-- mps app on `http://localhost:8080`
+- mps app coming soon on `http://localhost:8080`

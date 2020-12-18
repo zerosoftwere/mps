@@ -32,6 +32,6 @@ public class VendorResource {
     @PermitAll
     @Path("{id}")
     public Response retrieve(@PathParam("id") Long id) {
-        return Response.ok(vendorService.get(id).getServices()).build();
+        return Response.ok(vendorService.get(id)).build();
     }
 }

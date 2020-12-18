@@ -1,0 +1,20 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+      <div class="navbar-header">
+          <a class="navbar-brand" routerLink="">MPS</a>
+      </div>
+      <div class="navbar-body">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a routerLink="/login">Login</a></li>
+          <li><a routerLink="/register">Register</a></li>
+        </ul>
+      </div>
+  </div>
+</nav>
+<section class="container">
+  <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+          <router-outlet></router-outlet>
+      </div>
+  </div>
+</section>
