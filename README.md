@@ -5,7 +5,7 @@ Mobile payment platform
 ## prerequisite the application
 
 - docker and docker-compose are installed
-- port 8080 is free
+- port 8000 and 8080 are free
 
 ## Running the application
 
@@ -29,4 +29,4 @@ docker-compose down
 ## Documentation
 
 - find the doc at `http://localhost:8000/doc`
-- mps app coming soon on `http://localhost:8080`
+- mps frontend coming soon on `http://localhost:8080`
